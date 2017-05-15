@@ -12,3 +12,10 @@ body
       textarea(name="content", cols=40, rows=4)
     div
       button(type="submit") 投稿
+
+h2 投稿一覧
+//jadeのiteration機能を用いて全ての投稿内容を表示
+//https://pugjs.org/language/iteration.html
+each content in contents
+  p #{content}
+  hr
