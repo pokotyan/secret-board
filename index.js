@@ -8,7 +8,7 @@ const basic = auth.basic({
   file: './users.htpasswd'               //認証ユーザーの一覧にファイルを利用
 })
 
-const server = http.createServer((req, res)=>{
+const server = http.createServer(basic, (req, res)=>{
   router.route(req, res);
 }).on('error',(e)=>{
   console.error('Server Error', e);
