@@ -11,16 +11,18 @@ head
     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css",
     integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r",
     crossorigin="anonymous")
-body
-  h1 秘密の匿名掲示板
-  a(href="/logout") ログアウト
+body(class="container")
+  div(class="page-header")
+    a(href="/logout", class="btn btn-info pull-right") ログアウト
+    h1 秘密の匿名掲示板
   h2 新規投稿
   form(method="post", action="/posts")
-    div
-      textarea(name="content", cols=40, rows=4)
-    div
-      button(type="submit") 投稿
-
+    div(class="form-group")
+      textarea(name="content", class="form-control", rows="4")
+    div(class="form-group")
+      button(type="submit", class="btn btn-info pull-right") 投稿
+    //間隔調整用
+    div(class="row")
 h2 投稿一覧
 //jadeのiteration機能を用いて全ての投稿内容を表示
 //https://pugjs.org/language/iteration.html
