@@ -21,7 +21,9 @@ each post in posts
     h3 #{post.id} : 管理人
   else
     h3 #{post.id} : ID:#{post.trackingCookie}
-  p #{post.content}
+  //!=でタグをエスケープせずにそのまま表示できる。
+  //つまり投稿時の改行ちゃんと反映される。
+  p!= post.content
   p 投稿日時: #{post.createdAt}
   //jadeは接頭に - をつければテンプレート内にjsが書ける　https://pugjs.org/language/code.html
   //管理人のみ、誰が投稿したかわかる
