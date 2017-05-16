@@ -25,7 +25,7 @@ each post in posts
   p 投稿日時: #{post.createdAt}
   //自分の投稿のみ削除フォームを表示
   //jadeは接頭に - をつければテンプレート内にjsが書ける　https://pugjs.org/language/code.html
-  - var isDeletable = (user === post.postedBy)
+  - var isDeletable = (user === post.postedBy || user === 'admin')
   //こっちはjsのif文ではなくjadeに備わっているif文　https://pugjs.org/language/conditionals.html
   if isDeletable
     form(method="post", action="/posts?delete=1")
