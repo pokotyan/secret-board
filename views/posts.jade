@@ -37,8 +37,7 @@ each post in posts
       else
         span #{post.id} : ID:#{post.trackingCookie}
     div(class="panel-body")
-      //!=でタグをエスケープせずにそのまま表示できる。つまり投稿時の改行ちゃんと反映される。
-      p!= post.content
+      p(style="white-space:pre;") #{post.content}
     div(class="panel-footer")
       div 投稿日時: #{post.formattedCreatedAt}
       - var isAdmin = (user === 'admin')
