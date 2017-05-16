@@ -40,7 +40,7 @@ each post in posts
       //!=でタグをエスケープせずにそのまま表示できる。つまり投稿時の改行ちゃんと反映される。
       p!= post.content
     div(class="panel-footer")
-      div 投稿日時: #{post.createdAt}
+      div 投稿日時: #{post.formattedCreatedAt}
       - var isAdmin = (user === 'admin')
       //管理人のみ、誰が投稿したかわかる
       if isAdmin
