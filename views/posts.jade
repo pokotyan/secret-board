@@ -17,12 +17,21 @@ h2 投稿一覧
 //jadeのiteration機能を用いて全ての投稿内容を表示
 //https://pugjs.org/language/iteration.html
 each post in posts
-  h3 #{post.id} : ID:#{post.trackingCookie}
-  p #{post.content}
+  if post.postedBy === 'admin'
+    h3 #{post.id} : 管理人
+  else
+    h3 #{post.id} : ID:#{post.trackingCookie}
+  //!=でタグをエスケープせずにそのまま表示できる。
+  //つまり投稿時の改行ちゃんと反映される。
+  p!= post.content
   p 投稿日時: #{post.createdAt}
-  //自分の投稿のみ削除フォームを表示
   //jadeは接頭に - をつければテンプレート内にjsが書ける　https://pugjs.org/language/code.html
-  - var isDeletable = (user === post.postedBy)
+  //管理人のみ、誰が投稿したかわかる
+  - var isAdmin = (user === 'admin')
+  if isAdmin
+    p 投稿者: #{post.postedBy}
+  //自分の投稿もしくは管理人のみ削除フォームを表示
+  - var isDeletable = (user === post.postedBy || user === 'admin')
   //こっちはjsのif文ではなくjadeに備わっているif文　https://pugjs.org/language/conditionals.html
   if isDeletable
     form(method="post", action="/posts?delete=1")
