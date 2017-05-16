@@ -3,38 +3,58 @@ html(lang="ja")
 head
   meta(charset="UTF-8")
   title 秘密の匿名掲示板
-body
-  h1 秘密の匿名掲示板
-  a(href="/logout") ログアウト
+  link(rel="stylesheet",
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css",
+    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7",
+    crossorigin="anonymous")
+  link(rel="stylesheet",
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css",
+    integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r",
+    crossorigin="anonymous")
+body(class="container")
+  div(class="page-header")
+    a(href="/logout", class="btn btn-info pull-right") ログアウト
+    h1 秘密の匿名掲示板
   h2 新規投稿
   form(method="post", action="/posts")
-    div
-      textarea(name="content", cols=40, rows=4)
-    div
-      button(type="submit") 投稿
-
+    div(class="form-group")
+      textarea(name="content", class="form-control", rows="4")
+    div(class="form-group")
+      button(type="submit", class="btn btn-info pull-right") 投稿
+    //間隔調整用
+    div(class="row")
 h2 投稿一覧
 //jadeのiteration機能を用いて全ての投稿内容を表示
 //https://pugjs.org/language/iteration.html
 each post in posts
-  if post.postedBy === 'admin'
-    h3 #{post.id} : 管理人
-  else
-    h3 #{post.id} : ID:#{post.trackingCookie}
-  //!=でタグをエスケープせずにそのまま表示できる。
-  //つまり投稿時の改行ちゃんと反映される。
-  p!= post.content
-  p 投稿日時: #{post.createdAt}
-  //jadeは接頭に - をつければテンプレート内にjsが書ける　https://pugjs.org/language/code.html
-  //管理人のみ、誰が投稿したかわかる
-  - var isAdmin = (user === 'admin')
-  if isAdmin
-    p 投稿者: #{post.postedBy}
-  //自分の投稿もしくは管理人のみ削除フォームを表示
-  - var isDeletable = (user === post.postedBy || user === 'admin')
-  //こっちはjsのif文ではなくjadeに備わっているif文　https://pugjs.org/language/conditionals.html
-  if isDeletable
-    form(method="post", action="/posts?delete=1")
-      input(type="hidden", name="id", value="#{post.id}")
-      button(type="submit") 削除
+  div(class="panel panel-default")
+    div(class="panel-heading")
+      //jadeは接頭に - をつければテンプレート内にjsが書ける　https://pugjs.org/language/code.html
+      - var isPostedByAdmin = (post.postedBy === 'admin')
+      //このifはjsのif文ではなくjadeに備わっているif文　https://pugjs.org/language/conditionals.html
+      if isPostedByAdmin
+        span #{post.id} : 管理人 ★
+      else
+        span #{post.id} : ID:#{post.trackingCookie}
+    div(class="panel-body")
+      //!=でタグをエスケープせずにそのまま表示できる。つまり投稿時の改行ちゃんと反映される。
+      p!= post.content
+    div(class="panel-footer")
+      div 投稿日時: #{post.formattedCreatedAt}
+      - var isAdmin = (user === 'admin')
+      //管理人のみ、誰が投稿したかわかる
+      if isAdmin
+        div 投稿者: #{post.postedBy}
+      //自分の投稿もしくは管理人のみ削除フォームを表示
+      - var isDeletable = (user === post.postedBy || isAdmin)
+      if isDeletable
+        form(method="post", action="/posts?delete=1")
+          input(type="hidden", name="id", value="#{post.id}")
+          button(type="submit", class="btn btn-danger pull-right") 削除
+          div(class="row")
   hr
+//bootstrapのjsにはjqueryが必要
+script(src="https://code.jquery.com/jquery-2.2.0.min.js")
+script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js",
+  integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS",
+  crossorigin="anonymous")
