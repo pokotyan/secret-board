@@ -20,4 +20,12 @@ each post in posts
   h3 #{post.id} : ID:#{post.trackingCookie}
   p #{post.content}
   p 投稿日時: #{post.createdAt}
+  //自分の投稿のみ削除フォームを表示
+  //jadeは接頭に - をつければテンプレート内にjsが書ける　https://pugjs.org/language/code.html
+  - var isDeletable = (user === post.postedBy)
+  //こっちはjsのif文ではなくjadeに備わっているif文　https://pugjs.org/language/conditionals.html
+  if isDeletable
+    form(method="post", action="/posts?delete=1")
+      input(type="hidden", name="id", value="#{post.id}")
+      button(type="submit") 削除
   hr
