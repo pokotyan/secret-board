@@ -16,6 +16,7 @@ body
 h2 投稿一覧
 //jadeのiteration機能を用いて全ての投稿内容を表示
 //https://pugjs.org/language/iteration.html
-each content in contents
-  p #{content}
+each post in posts
+  p #{post.content}
+  p 投稿日時: #{post.createdAt}
   hr
