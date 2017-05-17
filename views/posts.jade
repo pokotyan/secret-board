@@ -35,7 +35,9 @@ each post in posts
       if isPostedByAdmin
         span #{post.id} : 管理人 ★
       else
-        span #{post.id} : ID:#{post.trackingCookie}
+        //trackingidの値からハッシュ値を取り除いたもの（結果、ランダムな整数値のみになる）を用意する。
+        - var originalTrackingId = post.trackingCookie ? post.trackingCookie.split('_')[0] : ''
+        span #{post.id} : ID:#{originalTrackingId}
     div(class="panel-body")
       p(style="white-space:pre;") #{post.content}
     div(class="panel-footer")
