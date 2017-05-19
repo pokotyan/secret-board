@@ -52,6 +52,7 @@ each post in posts
       if isDeletable
         form(method="post", action="/posts?delete=1")
           input(type="hidden", name="id", value="#{post.id}")
+          input(type="hidden", name="oneTimeToken", value="#{oneTimeToken}")
           button(type="submit", class="btn btn-danger pull-right") 削除
           div(class="row")
   hr
